@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-// BJ #1018
+// BJ #1181
 public class Main {
 	public static boolean compare(String s1, String s2) {
 		
@@ -11,6 +11,7 @@ public class Main {
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		//StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 		
 		int n = Integer.parseInt(br.readLine());
 		String[] words = new String[n]; 
@@ -34,8 +35,11 @@ public class Main {
 				}
 			}
 			for (String s: outs.keySet()) {
-				System.out.println(s);
+				sb.append(s);
+				sb.append("\n");
 			}
 		}
+		
+		System.out.println(sb);
 	}
 }
