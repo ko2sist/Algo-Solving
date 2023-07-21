@@ -10,19 +10,18 @@ public class Main {
 		
 		int N = Integer.parseInt(br.readLine());
 		
-		Map<Integer,Integer> map = new HashMap<>();
-		
+		int[] arr = new int[2000001];
 		for (int i=0; i<N; i++) {
-			map.put(Integer.parseInt(br.readLine()), 1);
-		}
-		List<Integer> keylist = new ArrayList<>(map.keySet());
-		keylist.sort((s1,s2) -> s1.compareTo(s2));
-		
-		for (int n: keylist) {
-			sb.append(n);
-			sb.append("\n");
+			arr[Integer.parseInt(br.readLine())+1000000]++;
 		}
 		
+		for(int i=0; i<2000001; i++) {
+			if(arr[i] != 0) {
+				sb.append(i-1000000);
+				sb.append("\n");
+			}
+		}
+	
 		System.out.println(sb);
 	}
 }
