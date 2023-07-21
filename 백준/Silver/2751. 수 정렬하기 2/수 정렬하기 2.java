@@ -10,13 +10,15 @@ public class Main {
 		
 		int N = Integer.parseInt(br.readLine());
 		
-		Map<Integer,Integer> map = new TreeMap<>();
+		Map<Integer,Integer> map = new HashMap<>();
 		
 		for (int i=0; i<N; i++) {
 			map.put(Integer.parseInt(br.readLine()), 1);
 		}
+		List<Integer> keylist = new ArrayList<>(map.keySet());
+		keylist.sort((s1,s2) -> s1.compareTo(s2));
 		
-		for (int n: map.keySet()) {
+		for (int n: keylist) {
 			sb.append(n);
 			sb.append("\n");
 		}
