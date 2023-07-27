@@ -10,11 +10,11 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         
         int L = Integer.parseInt(br.readLine());
-        int h = 0;
+        long h = 0;
         String S = br.readLine();
         for(int i=0; i<L; i++) {
-        	int tmp = (int)S.charAt(i)-96;
-        	h += (tmp*((int)Math.pow(31, i)))%1234567891;
+        	long tmp = (long)S.charAt(i)-96;
+        	h += (tmp*((long)Math.pow(31, i)))%1234567891L;
         }
         
         System.out.println(h);
