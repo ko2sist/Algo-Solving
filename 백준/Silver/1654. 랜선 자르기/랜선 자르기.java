@@ -36,11 +36,12 @@ public class Main {
         	sum += tmp;
         }
         
-        // l: 랜선 길이의 합을 필요한 랜선의 개수로 나눈 몫
+        // end: 이진탐색을 위한 끝점
+        // start: 이진탐색을 위한 시작점
         long end = sum/N+1;
         long start = 1;
 
-        // 
+        // 이진탐색
         while(start + 1 < end) {
         	long mid = (start+end)/2;
         	
