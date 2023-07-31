@@ -1,5 +1,5 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 // BJ #11723
 public class Main {
@@ -38,7 +38,7 @@ public class Main {
     		list.add(x);
     	}
     	
-    	public void all() {
+    	public void all() {  
     		this.empty();
     		for(int i=1; i<21; i++) {
     			list.add(i);
