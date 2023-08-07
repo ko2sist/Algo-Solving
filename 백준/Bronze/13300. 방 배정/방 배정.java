@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 // BJ #13300 - 방 배정
-// Strategy: DP(Dynamic Programming)
+// Strategy: 
 public class Main {
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
