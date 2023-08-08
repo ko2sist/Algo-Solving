@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 // BJ #17413 - 단어 뒤집기 2
-// Strategy: stack
+// Strategy: stack, StringBuilder
 public class Main {
 	public static void store(StringBuilder sb, Stack<Character> s) {
 		while(!s.empty()) {
