@@ -1,58 +1,53 @@
 import java.util.*;
 import java.io.*;
 
-// BJ #5525 - IOIOI
-// Strategy: 보이어-무어
+// BJ #6064 - 카잉 달력
+// Strategy: 
 public class Main {
+	static int N,M;
+	// search(txt, pat): txt에서 pat이 등장한 횟수를 반환 / 보이어-무어 알고리즘을 사용
+	public static int search(String txt, String pat) {
+		int m = 2*N+1;
+		int n = M;
+		
+		int[] badchar = new int[256];
+		for(int i=0; i<256; i++) {
+			badchar[i] = -1;
+		}
+		for(int i=0; i<m; i++) {
+			badchar[pat.charAt(i%2)] = i;
+		}
+		
+		int res = 0;
+		int s = 0;
+		while(s <= (n-m)) {
+			int j = m-1;
+			while(j >= 0 && pat.charAt(j%2) == txt.charAt(s+j)) {
+				j--;
+			}
+			
+			if(j<0) {
+				res++;
+				s += (s+m < n)? m-badchar[txt.charAt(s+m)] : 1;
+			}else {
+				s += Math.max(1,  j - badchar[txt.charAt(s+j)]);
+			}
+		}
+		return res;
+	}
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		
 		// N,M,S 입력
-		int N = Integer.parseInt(br.readLine());
-		int M = Integer.parseInt(br.readLine());
+		N = Integer.parseInt(br.readLine());
+		M = Integer.parseInt(br.readLine());
 		String S = br.readLine();
+		String P = "IO";
 		
-		// 패턴 생성
-		StringBuilder sb_P = new StringBuilder();
-		sb_P.append("I");
-		for(int i=0; i<N; i++) {
-			sb_P.append("OI");
-		}
-		String P = sb_P.toString();
-		
-		// 보이어-무어 실행
-		int res = 0;
-		int idx_P = 0;
-		int idx_S = 0;
-		int len_P = P.length();
-		int len_S = S.length();
-		int[] skip = new int[Character.MAX_VALUE+1];
-		
-		// 건너뛰기 표 생성
-		for(int i=0; i<Character.MAX_VALUE+1; i++) {
-			skip[i] = len_P;
-		}
-		for(int i=0; i<len_P-1; i++) {
-			skip[P.charAt(i)] = len_P-1-i;
-		}
-		
-		// 개수 계산
-		idx_S = len_P - 1;
-		while(idx_S < len_S) {
-			idx_P = len_P - 1;
-			while(P.charAt(idx_P) == S.charAt(idx_S)){
-				if(idx_P == 0) {
-					res++;
-					break;
-				}
-				idx_P--;
-				idx_S--;
-			}
-			idx_S += Math.max(skip[S.charAt(idx_S)], len_P - idx_P);
-		}
+
 		
 		// 최종 결과 출력
-		System.out.println(res);
+		System.out.println(search(S,P));
 	}
 }
