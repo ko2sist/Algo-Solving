@@ -2,9 +2,7 @@ import java.util.*;
 import java.io.*;
 
 // SWEA #1213 - String
-// Strategy: s에서 1글자씩 앞으로 순회, f의 첫글자와 일치하는 글자가 나오면 len_f만큼
-//			반복문을 돌려가면서 f의 모든 글자가 순서대로 나오는지 체크, 만약 그렇다면 res++
-//			도중에 문자가 일치하지 않는 다면 s의 다음 글자로
+// Strategy: 보이어-무어
 class Solution {
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,19 +16,33 @@ class Solution {
 			String s = br.readLine();	// s: 문장
 			int len_f = f.length();		// len_f: f의 길이
 			int len_s = s.length();		// len_s: s의 길이
+			int idx_f;					// f의 커서 (보이어-무어)
+			int idx_s;					// s의 커서 (보이어-무어)
+			int[] skip = new int[Character.MAX_VALUE +1];	// 건너뛰기 표
 			
 			int res = 0;				// res: s에서 f가 등장한 횟수
 			
-			// 단어 검색
-			loop: for(int i=0; i<len_s; i++) {
-				if(s.charAt(i) == f.charAt(0)) {
-					for(int j=1; j<len_f; j++) {
-						if(i+j >= len_s || s.charAt(i+j) != f.charAt(j)) {
-							continue loop;
-						}
+			// 건너뛰기 표 만들기
+			for(idx_s = 0; idx_s <= Character.MAX_VALUE; idx_s++) {
+				skip[idx_s] = len_f;
+			}
+			for(idx_s = 0; idx_s < len_f-1; idx_s++) {
+				skip[f.charAt(idx_s)] = len_f-1 - idx_s;
+			}
+			
+			// 검색
+			while(idx_s < len_s) {
+				idx_f = len_f-1;
+				while(s.charAt(idx_s) == f.charAt(idx_f)) {
+					if(idx_f == 0) {
+						res++;
+						break;
 					}
-					res++;
+					idx_f--;
+					idx_s--;
 				}
+				idx_s += Math.max(skip[s.charAt(idx_s)], len_f-idx_f);
+				
 			}
 			
 			// 결과 저장
