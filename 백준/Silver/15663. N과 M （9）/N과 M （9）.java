@@ -18,7 +18,7 @@ public class Main {
 		}
 		
 		for(int i=0; i<N; i++) {
-			if(i>=1 && arr[i] == arr[i-1] && !visited[i-1]) continue;
+			if(i>=1 && arr[i] == arr[i-1] && !visited[i-1]) continue;  // 중복되는 수를 방문 했을 경우에는 skip x
 			if(!visited[i]) {
 				selected[len] = arr[i];
 				visited[i] = true;
