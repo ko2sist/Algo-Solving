@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-// BJ #16496 - 큰 수 만들기
+// BJ #1422 - 숫자의 신
 // Strategy: 
 public class Main {
 	public static class Big implements Comparable<Big>{
