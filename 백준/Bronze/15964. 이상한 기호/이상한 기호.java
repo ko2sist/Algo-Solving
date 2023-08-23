@@ -10,8 +10,8 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		int A = Integer.parseInt(st.nextToken());
-		int B = Integer.parseInt(st.nextToken());
+		long A = Long.parseLong(st.nextToken());
+		long B = Long.parseLong(st.nextToken());
 		
 		System.out.println((A+B)*(A-B));
 	}
