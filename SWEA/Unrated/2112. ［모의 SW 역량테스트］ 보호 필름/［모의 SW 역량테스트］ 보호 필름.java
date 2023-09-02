@@ -7,31 +7,13 @@ public class Solution {
 	static int D, W, K, min;
 	static int[][] film;
 	
-    // check: 선택한 용액 조합으로 충격 테스트를 만족하는지 체크하는 method
-	public static boolean check(int[] selected) {
-		int[][] c = new int[D][W];
-		
-		for(int i=0; i<D; i++) {
-			c[i] = film[i].clone();
-		}
-		
-		for(int i=0; i<D; i++) {
-			if(selected[i] == 0) {
-				for(int j=0; j<W; j++) {
-					c[i][j] = 0;
-				}
-			}else if(selected[i] == 1) {
-				for(int j=0; j<W; j++) {
-					c[i][j] = 1;
-				}
-			}
-		}
-		
+	// 현재 필름이 충격 테스트 통과 가능한지 체크하는 method
+	public static boolean check() {
 		loop: for(int i=0; i<W; i++) {
 			int cntA = 0;
 			int cntB = 0;
 			for(int j=0; j<D; j++) {
-				if(c[j][i] == 0) {
+				if(film[j][i] == 0) {
 					cntA++;
 					cntB = 0;
 					if(cntA == K) {
@@ -56,29 +38,35 @@ public class Solution {
 		return true;
 	}
 	
-	public static void back(int num, int idx, int[] selected) {
-		if(num >= min) return;		// 용액 사용 횟수가 기존 min 이상이면 종료
+	public static void back(int num, int idx) {
+		if(num >= min) return;	// 용액 사용 횟수가 현재 min 이상이면 종료
 		
 		if(idx == D) {
-//			System.out.println(Arrays.toString(selected));
-			if(check(selected)) {
+			if(check()) {
 				min = num;
 			}
 			return;
 		}
 		
-        // 용액 미사용
-		selected[idx] = -1;
-		back(num,idx+1,selected);
+		int[] copy = film[idx].clone();
 		
-        // 용액 A 사용
-		selected[idx] = 0;
-		back(num+1, idx+1, selected);
+		// 용액 미사용
+		back(num,idx+1);
 		
-        // 용액 B 사용
-		selected[idx] = 1;
-		back(num+1, idx+1, selected);
+		// 용액 A 사용
+		for(int i=0; i<W; i++) {
+			film[idx][i] = 0;
+		}		
+		back(num+1, idx+1);
 		
+		// 용액 B 사용
+		for(int i=0; i<W; i++) {
+			film[idx][i] = 1;
+		}
+		back(num+1, idx+1);
+		
+		// 방문 해제
+		film[idx] = copy;
 		
 		
 	}
@@ -105,15 +93,11 @@ public class Solution {
 				}
 			}
 			
-            // min: 용액 사용 최소 회수 저장
+			// min: 용액 최소 사용 회수 저장
 			min = Integer.MAX_VALUE;
 			
-            // selected: idx-> row, 해당 row에서 용액을 사용 했는지, 사용했다면 어떤 용액을 사용했는지 저장
-			int[] selected = new int[D];
-			Arrays.fill(selected, -1);	 // -1 -> 용액 미사용
-			
-            // 재귀 실행
-			back(0,0,selected);
+			// 백트래킹 실행
+			back(0,0);
 			
 			// 현재 테스트케이스 결과 저장
 			sb.append("#"+t+" ").append(min).append("\n");
