@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 // BJ #16566 - 카드게임
-// Strategy: 
+// Strategy: 이분탐색, union-find
 
 
 public class Main {
@@ -77,7 +77,6 @@ public class Main {
 			
 			
 			while(start < end) {
-//				System.out.println(start+" "+end);
 				int mid = (start+end) >> 1 ;
 				
 				if(key < nums[mid]) {
@@ -87,19 +86,14 @@ public class Main {
 				}
 					
 			}
-			
 
 			int idx = find(start);
-//			System.out.println(idx);
 			System.out.println(nums[idx]);
 			if(idx<M-1) {
 				union(idx, idx+1);
 			}
-			
-			
-			
+
 		}
-		
 		
 		System.out.println(sb);
 	}
