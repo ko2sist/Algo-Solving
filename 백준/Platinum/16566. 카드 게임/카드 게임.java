@@ -88,7 +88,7 @@ public class Main {
 			}
 
 			int idx = find(start);
-			System.out.println(nums[idx]);
+			sb.append(nums[idx]).append("\n");
 			if(idx<M-1) {
 				union(idx, idx+1);
 			}
