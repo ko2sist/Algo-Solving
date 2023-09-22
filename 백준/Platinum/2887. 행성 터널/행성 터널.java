@@ -91,7 +91,9 @@ public class Main {
 	}
 	
 	public static void Kruskal() {
-			while(!pq.isEmpty()) {
+		int cnt = 0;
+		while(cnt != N-1) {
+			while(true) {
 				Edge minEdge = pq.poll();
 				int u = minEdge.src;
 				int v = minEdge.dst;
@@ -99,9 +101,11 @@ public class Main {
 				if(find(u) != find(v)) {
 					union(u,v);
 					totalCost += minEdge.cost;
+					break;
 				}
 			}
-			
+			cnt++;
+		}
 		
 	}
 	
