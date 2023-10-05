@@ -1,51 +1,51 @@
-import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
-// BJ #15656
 public class Main {
-	public static StringBuilder maker(int[] nums, int len) {
-		StringBuilder sb = new StringBuilder();
-		String result = "";
-		if(len == 1) {
-			for(int i=0; i<nums.length; i++) {
-				sb.append(nums[i]);
-				sb.append("\n");
-			}
-			return sb;
-		} else {
-			sb = maker(nums, len-1);
-			String[] sb_arr = sb.toString().split("\n");
-			sb.setLength(0); // sb 초기화
-			int ln = nums.length;
-			int ls = sb_arr.length;
-			
-			for(int i=0; i<ln; i++) {
-				for(int j=0; j<ls; j++) {
-					sb.append(nums[i]);
-					sb.append(" "); 
-				    sb.append(sb_arr[j]);
-				    sb.append("\n");
-				}
-			}
-			return sb;
+	static int N;
+	static int M;
+//	static boolean[] visited;
+	static int[] arr;
+	static int[] brr;
+
+	static StringBuilder sb = new StringBuilder();
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		N = sc.nextInt();
+		M = sc.nextInt();
+
+		arr = new int[N];	//주의
+		brr = new int[M];
+//		visited = new boolean[N];
+
+		for (int i = 0; i < N; i++) {	//주의
+			arr[i] = sc.nextInt();
 		}
+		Arrays.sort(arr);
+
+		dfs(0);
+		System.out.println(sb);
+
 	}
-	
-	public static void main(String[] args) throws Exception{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		int N = Integer.parseInt(st.nextToken());
-		int M = Integer.parseInt(st.nextToken());
-		
-		int[] nums = new int[N];
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++) {
-			nums[i] = Integer.parseInt(st.nextToken());
+
+	public static void dfs(int depth) {
+
+		if (depth == M) {
+			for (int val : brr) {
+				sb.append(val).append(' ');
+			}
+			sb.append('\n');
+			return;
 		}
-		Arrays.sort(nums);
-		
-		System.out.print(maker(nums, M));
+
+		for (int i = 0; i < N; i++) {
+//			if (!visited[i]) {
+//				visited[i] = true;
+				brr[depth] = arr[i];
+				dfs(depth + 1);
+//				visited[i] = false;
+//			}
+		}
 	}
 }
