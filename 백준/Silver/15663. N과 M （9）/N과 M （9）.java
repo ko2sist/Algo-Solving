@@ -1,55 +1,52 @@
-import java.io.*;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
-// BJ #15663 - N과 M (9)
-// Strategy: 백트래킹
 public class Main {
-	static int N,M;
+	static int N;
+	static int M;
+	static boolean[] visited;
 	static int[] arr;
-	static StringBuilder sb;
-	
-	public static void NM9(boolean[] visited, int[] selected, int len) {
-		if(len == M) {
-			for(int i=0; i<M; i++) {
-				sb.append(selected[i]).append(" ");
+	static int[] brr;
+
+	static StringBuilder sb = new StringBuilder();
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		N = sc.nextInt();
+		M = sc.nextInt();
+
+		arr = new int[N];	
+		brr = new int[M];
+		visited = new boolean[N];
+
+		for (int i = 0; i < N; i++) {	
+			arr[i] = sc.nextInt();
+		}
+		Arrays.sort(arr);
+
+		dfs(0);		
+		System.out.println(sb);
+
+	}
+
+	public static void dfs(int depth) {
+
+		if (depth == M) {
+			for (int val : brr) {
+				sb.append(val).append(' ');
 			}
-			sb.append("\n");
+			sb.append('\n');
 			return;
 		}
-		
-		for(int i=0; i<N; i++) {
-			if(i>=1 && arr[i] == arr[i-1] && !visited[i-1]) continue;  // 중복되는 수를 방문 했을 경우에는 skip x
-			if(!visited[i]) {
-				selected[len] = arr[i];
+
+		for (int i =0; i < N; i++) {	
+			if (i>0 && arr[i-1]==arr[i] && !visited[i-1]) continue;	//
+			if (!visited[i]) {
 				visited[i] = true;
-				NM9(visited, selected, len+1);
+				brr[depth] = arr[i];
+				dfs(depth + 1);
 				visited[i] = false;
 			}
 		}
-	}
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		sb = new StringBuilder();
-		
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		
-		arr = new int[N];
-		
-		st = new StringTokenizer(br.readLine());
-		for(int i=0; i<N; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-		
-		Arrays.sort(arr);
-		
-		boolean[] visited = new boolean[N];
-		int[] selected = new int[M];
-		
-		NM9(visited, selected, 0);
-		
-		// 최종 결과 출력
-		System.out.print(sb);
 	}
 }
