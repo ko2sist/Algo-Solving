@@ -1,51 +1,72 @@
-import java.util.*;
-import java.io.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Scanner;
 
-// BJ #15666 - N과 M (12)
-// Strategy: Backtracking
+//같은 조합의 숫자인데 순서만 다른게 존재하면 순열, 없으면 조합이다.
+
 public class Main {
-	static StringBuilder sb;
-	static int N,M;
-	static int[] nums;
-	
-	public static void NM12(int[] selected, int len) {
-		if(len == M) {
-			for(int i=1; i<=M; i++) {
-				sb.append(selected[i]).append(" ");
+	static int N;
+	static int M;
+//	static boolean[] visited;	
+	static int[] arr;
+	static HashSet<Integer> hash;
+	static int[] brr;
+
+	static StringBuilder sb = new StringBuilder();
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		N = sc.nextInt();
+		M = sc.nextInt();
+
+//		arr = new int[N];	//위치 주의
+		hash= new HashSet<Integer>();
+		
+		brr = new int[M];
+//		visited = new boolean[N];
+
+		for (int i = 0; i < N; i++) {	
+			hash.add(sc.nextInt());
+		}
+		
+		arr = new int[hash.size()];	
+		Iterator<Integer> iter= hash.iterator();
+		
+		int idx = 0;
+		while(iter.hasNext()) {
+			arr[idx++] = iter.next();
+		}
+		
+//		for(int i=0; i<hash.size(); i++) {
+//			arr[i] = iter.next();
+//		}
+		
+		Arrays.sort(arr);
+
+		dfs(0, 0);		
+		System.out.println(sb);
+
+	}
+
+	public static void dfs(int depth, int st) {
+
+		if (depth == M) {
+			for (int val : brr) {
+				sb.append(val).append(' ');
 			}
-			sb.append("\n");
+			sb.append('\n');
 			return;
 		}
-		boolean[] visited = new boolean[10001];
-		
-		for(int i=0; i<N; i++) {
-			if(nums[i] >= selected[len] && !visited[nums[i]]) {
-				selected[len+1] = nums[i];
-				visited[nums[i]] = true;
-				NM12(selected, len+1);
-			}
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		sb = new StringBuilder();
 
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		
-		st = new StringTokenizer(br.readLine());
-		nums = new int[N];
-		for(int i=0; i<N; i++) {
-			nums[i] = Integer.parseInt(st.nextToken());
+		for (int i = st; i < hash.size(); i++) {		//주의
+//			if (i>0 && arr[i-1]==arr[i] && !visited[i-1]) continue;	//
+//			if (!visited[i]) {
+//				visited[i] = true;
+				brr[depth] = arr[i];
+				dfs(depth + 1, i );
+//				visited[i] = false;
+//			}
 		}
-		
-		Arrays.sort(nums);
-		
-		int[] selected = new int[M+1];
-		NM12(selected, 0);
-		System.out.println(sb);
 	}
 }
