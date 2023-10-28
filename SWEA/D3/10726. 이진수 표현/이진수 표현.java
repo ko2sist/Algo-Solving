@@ -15,12 +15,12 @@ public class Solution {
 			N = Integer.parseInt(st.nextToken());
 			M = Integer.parseInt(st.nextToken());
 			
-			String res = "ON";
-			for(int i=0; i<N; i++) {
-				if((M & (1<<i)) != (1<<i)) {
-					res = "OFF";
-					break;
-				}
+			String res="";
+			int bit = (1<<N)-1;
+			if((M & bit) == bit) {
+				res = "ON";
+			}else {
+				res = "OFF";
 			}
 			
 			sb.append("#"+t+" ").append(res).append("\n");
