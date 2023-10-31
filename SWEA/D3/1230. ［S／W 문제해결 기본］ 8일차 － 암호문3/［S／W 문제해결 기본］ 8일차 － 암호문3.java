@@ -4,7 +4,7 @@ import java.io.*;
 // SWEA #1230 - 암호문3
 // Strategy : 
 public class Solution {
-	static BufferedWriter bw;
+	static StringBuilder sb;
 	
 	// MyList: 암호문을 저장, 처리하는 사용자 정의 class
 	public static class MyList{
@@ -35,21 +35,19 @@ public class Solution {
 			}
 		}
 		
-		// appendSb(t): t번째 테스트케이스의 결과를 출력
-		public void appendSb(int t) throws IOException {
-			bw.write("#"+t);
-			bw.write(' ');
+		// appendSb(t): t번째 테스트케이스의 결과를 sb에 저장
+		public void appendSb(int t) {
+			sb.append("#"+t).append(" ");
 			for(int i=0; i<10; i++) {
-				bw.write(String.valueOf(list.get(i)));
-				bw.write(' ');
+				sb.append(list.get(i)).append(" ");
 			}
-			bw.write('\n');
+			sb.append("\n");
 		}
 	}
 	public static void main(String[] args) throws Exception{
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		bw = new BufferedWriter(new OutputStreamWriter(System.out));
-			
+		sb = new StringBuilder();
+		
 
 		for(int t=1; t<=10; t++) {
 			
@@ -106,7 +104,6 @@ public class Solution {
 			ml.appendSb(t);
 		}
 		// 최종 결과 출력
-		bw.flush();
-		bw.close();
+		System.out.println(sb);
 	}
 }
