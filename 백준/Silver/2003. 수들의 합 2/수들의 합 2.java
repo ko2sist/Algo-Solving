@@ -21,15 +21,18 @@ public class Main {
         }
         
         int result = 0;
-        for(int i=0; i<N; i++) {
-        	int sum = 0;
-        	for(int j=i; j<N; j++) {
-        		sum += nums[j];
-        		if(sum == M) {
-        			result++;
-        			break;
-        		}
+        int end = 0;
+        int sum = 0;
+        
+        for(int start=0; start<N; start++) {
+        	while(sum < M && end < N) {
+        		sum += nums[end];
+        		end++;
         	}
+        	
+        	if(sum == M) result++;
+        	
+        	sum -= nums[start];
         }
         
         System.out.println(result);
