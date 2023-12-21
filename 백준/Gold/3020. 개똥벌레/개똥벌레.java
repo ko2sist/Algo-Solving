@@ -14,30 +14,27 @@ public class Main {
 		
 		// top : 종유석
 		// bot : 석순
-		int[] top = new int[H+2];
-		int[] bot = new int[H+2];
+		int[] top = new int[H+1];
+		int[] bot = new int[H+1];
 		
 		for(int i=0; i<N/2; i++) {
 			bot[Integer.parseInt(br.readLine())]++;
-			top[H-Integer.parseInt(br.readLine())+1]++;
+			top[Integer.parseInt(br.readLine())]++;
 		}
 		
 		// 누적합
-		for(int i=1; i<=H; i++) {
-			bot[i] = bot[i] + bot[i-1];
-		}
-		
-		for(int i=H; i>=1; i--) {
+		for(int i=H-1; i>=1; i--) {
+			bot[i] = bot[i] + bot[i+1];
 			top[i] = top[i] + top[i+1];
+			
 		}
 		
-//		System.out.println(Arrays.toString(top));
-//		System.out.println(Arrays.toString(bot));
-		
+		// 최종 결과
 		int min = N;
 		int cnt = 0;
 		for(int i=1; i<=H; i++) {
-			int diff = (bot[H] - bot[i-1]) + (top[1]-top[i+1]);
+			int diff = top[i] + bot[H-i+1];
+			
 			if(diff < min) {
 				min = diff;
 				cnt = 1;
