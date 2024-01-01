@@ -1,80 +1,82 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-//pq를 활용한 다익스트라 알고리즘 풀이
+// BJ #5972 - 택배 배송
+// Strategy: 다익스트라
 public class Main {
+	static final int INF = (int)1e9;
+	static int N,M;
+	static List<List<Pair>> graph;
+	static int[] dist;
 	
-	static int [] dist;
-	static List<Node>[] adjList;
-	
-	//pq를 사용하려면 Comparable 사용하기
-	public static class Node implements Comparable<Node>{
-		
+	public static class Pair implements Comparable<Pair>{
 		int node;
 		int cost;
 		
-		public Node(int node, int cost) {
+		public Pair(int node, int cost) {
 			super();
 			this.node = node;
 			this.cost = cost;
 		}
-		
+
 		@Override
-		public int compareTo(Node o) {
-			// this 먼저, o 나중에 해야 오름차순
-			return this.cost - o.cost;
+		public int compareTo(Pair o) {
+			return this.cost-o.cost;
 		}
+		
+		
 	}
 	
-
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
+		
+		// N,M 입력
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
 		
-		int N = Integer.parseInt(st.nextToken());//헛간
-		int M = Integer.parseInt(st.nextToken());//소들의 길
-		
-		dist = new int[N+1]; //최단거리 저장할 배열
-		Arrays.fill(dist, Integer.MAX_VALUE);
-		
-		adjList = new ArrayList[N+1];
-		for(int i=0; i<N+1; i++) {
-			adjList[i] = new ArrayList<>();
+		// 그래프 초기화
+		graph = new ArrayList<>();
+		for(int i=0; i<=N; i++) {
+			graph.add(new ArrayList<>());
 		}
 		
+		// 간선 정보 입력
 		for(int i=0; i<M; i++) {
-			 st = new StringTokenizer(br.readLine());
-			 int A =  Integer.parseInt(st.nextToken());//시작 정점
-			 int B =  Integer.parseInt(st.nextToken());//도착 정점
-			 int C =  Integer.parseInt(st.nextToken());//가중치
-
-			 //양방향 : 연결된 노드와 가중치 넣기
-			 adjList[A].add(new Node(B,C));
-			 adjList[B].add(new Node(A,C));
+			st = new StringTokenizer(br.readLine());
+			int A = Integer.parseInt(st.nextToken());
+			int B = Integer.parseInt(st.nextToken());
+			int C = Integer.parseInt(st.nextToken());
+			
+			graph.get(A).add(new Pair(B,C));
+			graph.get(B).add(new Pair(A,C));
 		}
 		
-		dijkstra(1);
+		// 다익스트라 실행
+		dist = new int[N+1];
+		Arrays.fill(dist, INF);
+		dist[1] = 0;
 		
-		System.out.println(dist[N]);
-	}
-	public static void dijkstra(int startNode) {
-		
-		PriorityQueue<Node> pq = new PriorityQueue<>();
-		dist[startNode] = 0;
-		
-		pq.add(new Node(startNode, 0));//시작 노드의 정점 번호와 최소 거리(0)
+		PriorityQueue<Pair> pq = new PriorityQueue<>();
+		pq.add(new Pair(1,0));
 		
 		while(!pq.isEmpty()) {
+			Pair tmp = pq.poll();
+			int tn = tmp.node;
 			
-			Node nextNode = pq.poll();
-			
-			//현재 정점과 연결된 정점들 하나씩 뽑기
-			for(Node n : adjList[nextNode.node]) {
-				if(dist[n.node] > dist[nextNode.node] + n.cost) {//기존의 최소 거리보다 새로 개선된 최소 거리가 짧다면 갱신
-					dist[n.node] = dist[nextNode.node] + n.cost;
-					pq.add(new Node(n.node, dist[n.node]));//pq에 선택된 노드와 해당 노드까지의 최소 거리 넣기(가중치 말고 최소거리 넣기)
+			for(Pair pair : graph.get(tn)) {
+				if(dist[pair.node] > dist[tn] + pair.cost) {
+					dist[pair.node] = dist[tn] + pair.cost;
+					
+					pq.add(new Pair(pair.node, dist[pair.node]));
 				}
 			}
 		}
+		
+		// 최종결과 출력
+		System.out.println(dist[N]);
+		
 	}
+
 }
