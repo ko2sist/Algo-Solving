@@ -13,15 +13,13 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		
 		// 제곱수 항의 최소 개수를 저장할 dp 배열 생성 및 초기화
-		// 모든 자연수 n은 n개의 1의 합으로 나타낼 수 있으므로 dp[i]를 i로 초기화
 		int[] dp = new int[N+1];
-		for(int i=1; i<=N; i++) {
-			dp[i] = i;
-		}
+		Arrays.fill(dp, (int)1e9);
+		dp[0]= 0;
 		
 		// 제곱수 항의 최소 개수 구하기(DP 이용)
-		for(int i=2; i<=N; i++) {
-			// 2부터 N까지 제곱수 항의 최소 개수 갱신하기
+		for(int i=1; i<=N; i++) {
+			// 1부터 N까지 제곱수 항의 최소 개수 갱신하기
 			for(int j=1; j*j<=i; j++) {
 				// i에서 i보다 같거나 작은 제곱수를 뺐을 때 그 수를 만드는데 
 				// 필요한 제곱수 항의 최소 개수 + 1이  
